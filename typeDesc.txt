@@ -1,0 +1,25 @@
+
+adsb_icao: messages from a Mode S or ADS-B transponder, using a 24-bit ICAO address
+
+adsb_icao_nt: messages from an ADS-B equipped "non-transponder" emitter e.g. a ground vehicle, using a 24-bit ICAO address
+
+adsr_icao: rebroadcast of ADS-B messages originally sent via another data link e.g. UAT, using a 24-bit ICAO address
+
+tisb_icao: traffic information about a non-ADS-B target identified by a 24-bit ICAO address, e.g. a Mode S target tracked by secondary radar
+
+adsc: ADS-C (received by monitoring satellite downlinks)
+
+mlat: MLAT, position calculated arrival time differences using multiple receivers, outliers and varying accuracy is expected.
+
+other: miscellaneous data received via Basestation / SBS format, quality / source is unknown.
+
+mode_s: ModeS data from the planes transponder (no position transmitted)
+
+adsb_other: messages from an ADS-B transponder using a non-ICAO address, e.g. anonymized address
+
+adsr_other: rebroadcast of ADS-B messages originally sent via another data link e.g. UAT, using a non-ICAO address
+
+tisb_other: traffic information about a non-ADS-B target using a non-ICAO address
+
+tisb_trackfile: traffic information about a non-ADS-B target using a track/file identifier, typically from primary or Mode A/C radar
+
