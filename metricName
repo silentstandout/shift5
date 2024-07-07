@@ -1,0 +1,10 @@
+metricName = 
+IF(
+  ISFILTERED(
+    metrics[Metric]),
+  CONCATENATE(
+    FIRSTNONBLANK(
+      metrics[Metric],
+      metrics[Metric]),
+  " (Cumulative)"),
+  "")
