@@ -1,0 +1,22 @@
+maxBaroAltPerFlight = 
+var maxBaroAlt =
+
+  SUMX(
+    GROUPBY(
+      'readsb-hist',
+      'readsb-hist'[hex],
+      "max",
+      MAXX(CURRENTGROUP(),
+        'readsb-hist'[alt_baro])),
+    [max])
+
+RETURN
+
+[maxBaroAlt]
+/
+CALCULATE(
+  [distHex],
+  NOT(
+    ISBLANK('readsb-hist'[alt_baro])))
+
+
