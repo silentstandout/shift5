@@ -1,0 +1,15 @@
+let
+    Source = Web.BrowserContents("https://en.wikipedia.org/wiki/List_of_airline_codes"),
+    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE.wikitable.sortable > * > TR > :nth-child(1)"}, {"Column2", "TABLE.wikitable.sortable > * > TR > :nth-child(2)"}, {"Column3", "TABLE.wikitable.sortable > * > TR > :nth-child(3)"}, {"Column4", "TABLE.wikitable.sortable > * > TR > :nth-child(4)"}, {"Column5", "TABLE.wikitable.sortable > * > TR > :nth-child(5)"}, {"Column6", "TABLE.wikitable.sortable > * > TR > :nth-child(6)"}}, [RowSelector="TABLE.wikitable.sortable > * > TR"]),
+    #"Promoted Headers" = Table.PromoteHeaders(#"Extracted Table From Html", [PromoteAllScalars=true]),
+    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each [ICAO] <> null and [ICAO] <> ""),
+    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each ([ICAO] <> "" and [ICAO] <> "n/a" and [ICAO] <> "N/A")),
+    #"Duplicated Column" = Table.DuplicateColumn(#"Filtered Rows1", "ICAO", "ICAO - Copy"),
+    #"Split Column by Position1" = Table.SplitColumn(#"Duplicated Column", "ICAO - Copy", Splitter.SplitTextByPositions({0, 3}, false), {"ICAO - Copy.1", "ICAO - Copy.2"}),
+    #"Removed Columns1" = Table.RemoveColumns(#"Split Column by Position1",{"ICAO - Copy.2"}),
+    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns1",{{"ICAO - Copy.1", "Code"}}),
+    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns1",null," ",Replacer.ReplaceValue,{"Comments"}),
+    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value", "defunct", each if Text.Contains([Comments], "defunct") then 1 else if Text.Contains([Comments], "Defunct") then 1  else if Text.Contains([Comments], "no longer") then 1 else if [Comments] is null then 0 else 0),
+    #"Filtered Rows2" = Table.SelectRows(#"Added Conditional Column", each ([defunct] = 0))
+in
+    #"Filtered Rows2"

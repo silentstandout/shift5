@@ -1,0 +1,20 @@
+let
+    Source = Web.BrowserContents("https://en.wikipedia.org/wiki/List_of_airline_codes"),
+    #"Extracted Table From Html" = Html.Table(Source, {{"Column1", "TABLE.wikitable.sortable > * > TR > :nth-child(1)"}, {"Column2", "TABLE.wikitable.sortable > * > TR > :nth-child(2)"}, {"Column3", "TABLE.wikitable.sortable > * > TR > :nth-child(3)"}, {"Column4", "TABLE.wikitable.sortable > * > TR > :nth-child(4)"}, {"Column5", "TABLE.wikitable.sortable > * > TR > :nth-child(5)"}, {"Column6", "TABLE.wikitable.sortable > * > TR > :nth-child(6)"}}, [RowSelector="TABLE.wikitable.sortable > * > TR"]),
+    #"Promoted Headers" = Table.PromoteHeaders(#"Extracted Table From Html", [PromoteAllScalars=true]),
+    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"IATA", type text}, {"ICAO", type text}, {"Airline", type text}, {"Call sign", type text}, {"Country/Region", type text}, {"Comments", type text}}),
+    #"Filtered Rows2" = Table.SelectRows(#"Changed Type1", each [IATA] <> null and [IATA] <> ""),
+    #"Filtered Rows" = Table.SelectRows(#"Filtered Rows2", each ([IATA] <> "")),
+    #"Split Column by Position" = Table.SplitColumn(#"Filtered Rows", "IATA", Splitter.SplitTextByPositions({0, 2}, false), {"IATA.1", "IATA.2"}),
+    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Position",{{"IATA.1", type text}, {"IATA.2", type text}}),
+    #"Removed Columns" = Table.RemoveColumns(#"Changed Type2",{"IATA.2"}),
+    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"IATA.1", "IATA"}}),
+    #"Duplicated Column" = Table.DuplicateColumn(#"Renamed Columns", "IATA", "IATA - Copy"),
+    #"Renamed Columns1" = Table.RenameColumns(#"Duplicated Column",{{"IATA - Copy", "Code"}}),
+    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns1",null," ",Replacer.ReplaceValue,{"Comments"}),
+    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value", "defunct", each if Text.Contains([Comments], "defunct") then 1 else if Text.Contains([Comments], "Defunct") then 1 else if Text.Contains([Comments], "no longer") then 1 else if [Comments] is null then 0 else 0),
+    #"Filtered Rows1" = Table.SelectRows(#"Added Conditional Column", each ([defunct] = 0)),
+    #"Appended Query" = Table.Combine({#"Filtered Rows1", #"Airline codes (2)"}),
+    #"Removed Duplicates" = Table.Distinct(#"Appended Query", {"Code"})
+in
+    #"Removed Duplicates"
