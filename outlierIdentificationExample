@@ -1,0 +1,21 @@
+# to create as a new column on a table. This example is for groundSpeed (gs) using two standard deviations.
+
+gsOutlier = 
+VAR gsAvg =
+AVERAGE('readsb-hist'[gs])
+VAR gsStd =
+STDEV.S('readsb-hist'[gs])*2
+var out1 = 
+IF(
+    AND(
+        'readsb-hist'[gs]>(gsAvg-gsStd),
+        'readsb-hist'[gs]<(gsAvg+gsStd)),
+    "f",
+    "t")
+RETURN
+IF(
+    OR(
+        ISBLANK('readsb-hist'[gs]),
+        out1="t"),
+    "t",
+    "f")
