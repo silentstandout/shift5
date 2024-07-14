@@ -7,12 +7,14 @@ DESC: This repo contains scripts and other files created by and used by F. Bland
 ------------------------------------- Assessment Prompt -------------------------------------
 
 DATA: The dataset can be found here -> https://www.adsbexchange.com/products/historical-data/  
+Expanation of fields can be found here -> https://www.adsbexchange.com/version-2-api-wip/
 [data retrieved by f. bland at approx. 2024-07-04 1330z]
 
 USE CASES:  
-  1) Can we create classifications of flights for future analysis? What are key features of a classification?  
-  2) How do flights differ?  
-  3) <br> 
+  1) Flight Classifications 
+  2) Flight Metric Correlations
+  3) Flight Monitoring
+  4) Free Flowing Exploration  
 
 TASKS:<br> 
   1) Explore the data.  
@@ -56,13 +58,14 @@ TECHNICAL REVIEW EXPECTATIONS:
 
 
 DATA USED:  
-  - readsb-hist for 2024-06-01  
+  - readsb-hist for 2024-06-01  00:00:00 through 01:00:00  
   - ACAS for 2024-06-01  
   - Trace Files for 2024-06-01 00  
   - HiRes Trace Files for 2024-06-01 00  
   - Why?:  
-    - Latest date = freshest data (if field names etc changed at all between 2016 and now).  
-    - Limited to only 00 for trace and hires trace files due to breadth of directories and time/resource limitations for task.  
+    - Latest date = freshest data (if field names, etc changed at all between 2016 and now).  
+    - Limited to only 00 for trace and hires trace files due to breadth of directories and time/resource limitations for task.
+    - Limited to the 00 hour for readsb-hist due to dataset size
 
 TECHNOLOGY LEVERAGED:  
   - Mac OS (OS on my personal machine)  
@@ -87,11 +90,19 @@ LANGUAGES LEVERAGED:
 FACTORS TO DETERMINE FINAL USE CASE:
 
 METHODOLOGIES USED:
+  - Descriptive Statistics  
+  - Hierarchical Clustering  
+  - Dimensionality Reduction  
+  - Decision Trees
+  - Feature Engineering  
 
 FINDINGS:
+  - Ground Speed and Barometric Altitude have a positive linear correlation among aircraft categories A1-A6  
+  - The count of active flights steadily decreases through the 00 hour of 2024-06-01 (nearly 5%)  
+  - The ADSB_ICAO type provides the most consistent results (as expected based on the type descriptions) as evident by steadier line graphs  
 
 DELIVERABLES:  
-  - White Paper + PowerPoint + Data Viz Report (interactive optional. live dashboard not needed without data flow and/or closer to realtime data.
+  - PowerPoint Presentation and github repo serve some 'White Paper' elements, while an interactive dashboard is also built and readily available at silentstandout.com/s5
   
 
 
