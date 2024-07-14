@@ -7,7 +7,7 @@ DESC: This repo contains scripts and other files created by and used by F. Bland
 ------------------------------------- Assessment Prompt -------------------------------------
 
 DATA: The dataset can be found here -> https://www.adsbexchange.com/products/historical-data/  
-Expanation of fields can be found here -> https://www.adsbexchange.com/version-2-api-wip/
+Expanation of fields can be found here -> https://www.adsbexchange.com/version-2-api-wip/  
 [data retrieved by f. bland at approx. 2024-07-04 1330z]
 
 USE CASES:  
