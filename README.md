@@ -98,7 +98,7 @@ METHODOLOGIES USED:
 
 FINDINGS:
   - Ground Speed and Barometric Altitude have a positive linear correlation among aircraft categories A1-A6  
-  - The count of active flights with an associated/listed airline steadily decreases through the 00 hour of 2024-06-01 (nearly 7%)  
+  - The count of active flights with an associated/listed airline and a category of aircraft on record steadily decreases through the 00 hour of 2024-06-01 (nearly 7%)  
   - The ADSB_ICAO type provides the most consistent results (as expected based on the type descriptions) as evident by steadier line graphs  
 
 DELIVERABLES:  
